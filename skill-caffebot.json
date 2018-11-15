@@ -1,0 +1,356 @@
+{
+  "name": "カフェボット",
+  "intents": [
+    {
+      "intent": "注文",
+      "examples": [
+        {
+          "text": "コーヒーください"
+        },
+        {
+          "text": "ホットを一つ"
+        },
+        {
+          "text": "ラテをください"
+        },
+        {
+          "text": "アイスコーヒーをお願いします"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "設備",
+      "examples": [
+        {
+          "text": "Wi-Fiが使いたい"
+        },
+        {
+          "text": "ワイファイはありますか？"
+        },
+        {
+          "text": "電源はありますか？"
+        },
+        {
+          "text": "コンセントは使えますか？"
+        },
+        {
+          "text": "電子マネーは使えますか？"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "飲み物",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "ホットコーヒー",
+          "synonyms": [
+            "ホットコーヒー",
+            "ホット",
+            "コーヒー",
+            "ブラック"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "アイス",
+          "synonyms": [
+            "アイスコーヒー",
+            "レーコ"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "電子マネー",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "ID",
+          "synonyms": [
+            "iD",
+            "アイディー"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "交通系",
+          "synonyms": [
+            "スイカ",
+            "Suica",
+            "マナカ",
+            "交通系"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Edy",
+          "synonyms": [
+            "Edy",
+            "エディ",
+            "楽天Edy",
+            "楽天"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "設備",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "電源",
+          "synonyms": [
+            "電源",
+            "コンセント"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "電子マネー",
+          "synonyms": [
+            "電子マネー",
+            "フェリカ"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Wi-Fi",
+          "synonyms": [
+            "Wi-Fi",
+            "WiFi",
+            "ワイファイ",
+            "無線",
+            "無線LAN",
+            "無線ラン",
+            "ネットワーク"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "yesno",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "yes",
+          "synonyms": [
+            "はい",
+            "お願いします",
+            "うん"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "no",
+          "synonyms": [
+            "いいえ",
+            "いいです",
+            "いりません"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "language": "ja",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2018-07-10"
+    }
+  },
+  "description": "",
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "紙カップ熱いので気をつけてください"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1542241226480",
+      "metadata": {},
+      "conditions": "@yesno:no",
+      "dialog_node": "node_3_1542241699069",
+      "previous_sibling": "node_2_1542241483381"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "マグカップでお渡ししますね。"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1542241226480",
+      "metadata": {},
+      "conditions": "@yesno:yes",
+      "dialog_node": "node_2_1542241483381"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "どの電子マネーをお使いですか？"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_4_1542242343817",
+      "metadata": {},
+      "conditions": "@設備:電子マネー",
+      "dialog_node": "node_6_1542242542984",
+      "previous_sibling": "node_5_1542242357718"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "壁際にございます"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_4_1542242343817",
+      "metadata": {},
+      "conditions": "@設備:電源",
+      "dialog_node": "node_5_1542242357718"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "他の電子マネーはお持ちですか？"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1542242542984",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_7_1542242613762"
+      },
+      "conditions": "true",
+      "dialog_node": "node_8_1542242973630",
+      "previous_sibling": "node_7_1542242613762"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "@(電子マネー) は使えます"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1542242542984",
+      "metadata": {},
+      "conditions": "@電子マネー",
+      "dialog_node": "node_7_1542242613762"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "#設備",
+      "dialog_node": "node_4_1542242343817",
+      "previous_sibling": "node_1_1542241226480"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "寒いですものね。マグカップでご用意しましょうか？"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "#注文 && @飲み物:ホットコーヒー",
+      "dialog_node": "node_1_1542241226480",
+      "previous_sibling": "ようこそ"
+    },
+    {
+      "type": "standard",
+      "title": "その他",
+      "output": {
+        "text": {
+          "values": [
+            "わかりませんでした。申し訳ありませんが違う表現を試していただけますか。",
+            "恐れ入りますが表現を変えていただけますか。わかりませんでした。"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "その他",
+      "previous_sibling": "node_10_1542243760595"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_7_1542242613762"
+      },
+      "conditions": "@電子マネー",
+      "dialog_node": "node_10_1542243760595",
+      "previous_sibling": "node_4_1542242343817"
+    },
+    {
+      "type": "standard",
+      "title": "ようこそ",
+      "output": {
+        "text": {
+          "values": [
+            "いらっしゃいませ。ご注文をどうぞ"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "welcome",
+      "dialog_node": "ようこそ"
+    }
+  ],
+  "workspace_id": "d68d2eb4-1c89-4ec4-8542-1a7555d8cce7",
+  "counterexamples": [],
+  "learning_opt_out": false,
+  "status": "Available"
+}
